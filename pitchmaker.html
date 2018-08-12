@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>Pitchmaker</title>
+<script type='text/javascript'>
+var cent1 = 0
+var cent2 = 0
+
+function oscil(hz, cent, cent2) {
+    const ctx = new AudioContext();
+    osc = ctx.createOscillator();
+    osc.connect(ctx.destination);
+    osc.frequency.value = hz //document.getElementById('freq').value
+    osc.detune.value = cent // document.getElementById('detune').value
+    osc.type = document.getElementById("suono").value
+    osc.start(ctx.currentTime)
+    osc.stop(ctx.currentTime + 1)
+
+    osc = ctx.createOscillator();
+    osc.connect(ctx.destination);
+    osc.frequency.value = hz //document.getElementById('freq').value
+    osc.detune.value = cent2 // document.getElementById('detune').value
+    osc.type = document.getElementById("suono").value
+    osc.start(ctx.currentTime + 1.5)
+    osc.stop(ctx.currentTime + 2.5)
+}
+
+function splay(vote) {
+    if (vote == 'start') {
+        //First time. Go for it.
+    } else if (vote == (cent2 - cent1) || vote * (cent2 - cent1) > 0) { // same or positive.
+        document.getElementById('reslt').value=("Good!\n答: " + cent1 + ' vs ' + cent2 + ' cents')
+    } else { // negative: prev=nega & choice=posi or vice versa.
+        document.getElementById('reslt').value=("BAD!\n答: " + cent1 + ' vs ' + cent2 + ' cents')
+    }
+
+    cent1 = parseInt((Math.random() - 0.5) * document.getElementById("diffic").value)
+    cent2 = parseInt((Math.random() - 0.5) * document.getElementById("diffic").value)
+    oscil(442, cent1, cent2)
+}
+
+</script>
+</head>
+<body>
+<form name='foum'>
+<!--<input type='text' value="442" id="freq">Hz <input type="text" value="0.0" id="detune">cents<br />-->
+<input type="button" onclick="splay('start')" value='start'>
+<select id="diffic">
+    <option value="100">初級</option>
+    <option value="50">中級</option>
+    <option value="10">上級</option>
+</select>
+
+<select id="suono">
+    <option value="sine">サイン波</option>
+    <option value="triangle">三角波</option>
+    <option value="sawtooth">ノコギリ波</option>
+    <option value="square">矩形波</option>
+</select><br />
+二回目の音程は一回目より？<br />
+<input type="button" onclick="splay(1)" value='high''> <input type="button" onclick="splay(0)" value='same'> <input type="button" onclick="splay(-1)" value='low'><br />
+<textarea id='reslt'></textarea>
+</form>
+</form>
+</body>
+</html>
