@@ -28,9 +28,9 @@ function splay(vote) {
     if (vote == 'start') {
         //First time. Go for it.
     } else if (vote == (cent2 - cent1) || vote * (cent2 - cent1) > 0) { // same or positive.
-        document.getElementById('reslt').value=("Good!\nAnswer: " + cent1 + ' vs ' + cent2 + ' cents')
+        document.getElementById('reslt').value=("Good!\n" + cent1 + ' vs ' + cent2 + ' cents')
     } else { // negative: prev=nega & choice=posi or vice versa.
-        document.getElementById('reslt').value=("BAD!\nAnswer: " + cent1 + ' vs ' + cent2 + ' cents')
+        document.getElementById('reslt').value=("BAD!\n" + cent1 + ' vs ' + cent2 + ' cents')
     }
 
     cent1 = parseInt((Math.random() - 0.5) * document.getElementById("diffic").value)
